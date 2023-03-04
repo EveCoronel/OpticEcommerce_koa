@@ -8,11 +8,12 @@ module.exports = async function errorMiddleware(ctx, next) {
   } catch (err) {
     const errorStatus = err.statusCode || HTTP_STATUS.INTERNAL_ERROR;
     const errorMessage = err.message || "There was an unexpected error";
+    const errorDetails = err.details || "";
     if (errorStatus == 505) {
       logger.error(`unexpected error: ${error}`);
     }
-    const response = errorResponse(errorMessage, errorStatus);
-    ctx.status = +errorStatus
-    ctx.body = response
+    const response = errorResponse(errorMessage, errorStatus, errorDetails);
+    ctx.status = +errorStatus;
+    ctx.body = response;
   }
 };

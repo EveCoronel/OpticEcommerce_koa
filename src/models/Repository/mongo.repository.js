@@ -34,8 +34,7 @@ class MongoRepository {
       throw new HttpError(
         HTTP_STATUS.NOT_FOUND,
         "Resource with id provied could not be found",
-
-        err
+        err.message
       );
     }
   }
@@ -48,8 +47,7 @@ class MongoRepository {
       throw new HttpError(
         HTTP_STATUS.BAD_REQUEST,
         "Resource could not be created successfully",
-
-        err
+        err.message
       );
     }
   }
@@ -68,8 +66,7 @@ class MongoRepository {
       throw new HttpError(
         HTTP_STATUS.BAD_REQUEST,
         "Resource could not be updated successfully",
-
-        err
+        err.message
       );
     }
   }
@@ -80,12 +77,12 @@ class MongoRepository {
       if (!deletedDocument.deletedCount) {
         return null;
       }
+      return deletedDocument
     } catch (err) {
       throw new HttpError(
         HTTP_STATUS.BAD_REQUEST,
         "Resource could not be deleted successfully",
-
-        err
+        err.message
       );
     }
   }

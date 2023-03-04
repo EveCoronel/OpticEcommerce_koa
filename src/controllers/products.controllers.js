@@ -43,14 +43,64 @@ class ProductsController {
       return;
     }
     let productAdded = await api.createProduct(productPayload);
+    ctx.status = HTTP_STATUS.CREATED;
     ctx.body = successResponse(productAdded, HTTP_STATUS.CREATED);
   }
 
-  async updateProduct(ctx) {}
+  async updateProduct(ctx) {
+    const id = ctx.params._id;
+    let response = {};
+    if (!id || !id.length) {
+      response = errorResponse(
+        `Id must be provied it`,
+        HTTP_STATUS.BAD_REQUEST
+      );
+      ctx.status = HTTP_STATUS.BAD_REQUEST;
+      ctx.body = response;
+      return;
+    }
+    let productPayload = ctx.request.body;
+    if (!productPayload) {
+      response = errorResponse("Body must be provied", HTTP_STATUS.BAD_REQUEST);
+      return;
+    }
+    let productUpdated = await api.updateProduct(id, productPayload);
+    ctx.status = HTTP_STATUS.OK;
+    ctx.body = successResponse(productUpdated, HTTP_STATUS.OK);
+  }
 
-  async deleteProduct(ctx) {}
+  async deleteProduct(ctx) {
+    const id = ctx.params._id;
+    let response = {};
+    if (!id || !id.length) {
+      response = errorResponse(
+        `Id must be provied it`,
+        HTTP_STATUS.BAD_REQUEST
+      );
+      ctx.body = response;
+      return;
+    }
+    let productDeleted = await api.deleteProduct(id);
+    ctx.status = HTTP_STATUS.OK;
+    ctx.body = successResponse(productDeleted, HTTP_STATUS.OK);
+  }
 
-  async getProductsByCategory(ctx) {}
+  async getProductsByCategory(ctx) {
+    const category = ctx.params.category;
+    let response = {};
+    if (!category || !category.length) {
+      response = errorResponse(
+        `Category must be provied it`,
+        HTTP_STATUS.BAD_REQUEST
+      );
+      ctx.status = HTTP_STATUS.BAD_REQUEST;
+      ctx.body = response;
+      return;
+    }
+    let productsFound = await api.getProducts(category);
+    response = successResponse(productsFound, HTTP_STATUS.OK);
+    ctx.body = response;
+  }
 }
 
 module.exports = new ProductsController();

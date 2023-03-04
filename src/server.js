@@ -2,7 +2,7 @@ const Koa = require("koa");
 const envConfig = require("./config/env.config");
 const logger = require("./logs/logger");
 const { koaBody } = require("koa-body");
-const apiRoutes = require("./routers/api.router");
+const apiRoutes = require("./routers/api.routes");
 const MongoRepository = require("./models/Repository/mongo.repository");
 
 

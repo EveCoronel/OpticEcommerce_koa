@@ -16,12 +16,14 @@ const successResponse = (data, statusCode = 200) => {
   };
 };
 
-const errorResponse = (error, statusCode = 200) => {
-  return {
+const errorResponse = (error, statusCode = 200, details = false) => {
+  let response = {
     success: false,
     statusCode,
-    details: error,
+    message: error,
   };
+  if (details) response.details = details;
+  return response;
 };
 
 const formatMessage = (username, text) => {
@@ -38,10 +40,22 @@ const formatUser = (name) => {
   };
 };
 
+const getAge = (birthdate) => {
+  let today = new Date();
+  let birthDate = new Date(birthdate);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  let m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+};
+
 module.exports = {
   formatUser,
   formatMessage,
   successResponse,
   errorResponse,
   HttpError,
+  getAge
 };

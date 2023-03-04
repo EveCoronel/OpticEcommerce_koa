@@ -1,5 +1,9 @@
 const dotenv = require("dotenv");
 const path = require("path");
+const crypto = require('crypto');
+
+const secretKey = crypto.randomBytes(32).toString('hex');
+
 
 dotenv.config({
   path: path.resolve(
@@ -23,4 +27,5 @@ module.exports = {
   TWILIO_NUMBER: process.env.TWILIO_NUMBER,
   PORT: process.env.PORT,
   DB_NAME: process.env.DB_NAME || "test",
+  SECRET_KEY: secretKey
 };
