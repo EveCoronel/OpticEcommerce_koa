@@ -45,8 +45,32 @@ The following endpoints are available in the Optic Store API:
 - DELETE /products/:_id: Delete a specific product by ID
 
 
-### User Endpoints
+## Auth Endpoints
+- POST /api/auth/login: Retrieve a token that it must be used in each request to the api
 
+### Request body
+
+```
+{
+  "username": "exampleUser",
+  "password": "password123"
+}
+```
+
+- POST /api/auth/register: Register the user for using the api
+
+### Request body
+
+```
+{
+  "username": "newUser",
+  "password": "password456",
+  "address": "123 Main St.",
+  "birthDate": "01/01/2000",
+  "phoneNumber": "555-1234"
+}
+
+```
 
 ### Built With
 
