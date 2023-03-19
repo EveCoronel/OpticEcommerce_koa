@@ -2,8 +2,10 @@ const MongoRepository = require("../../Repository/mongo.repository");
 const cartSchema = require("../../schemas/Cart.schema");
 const { HTTP_STATUS } = require("../../../constants/api.constants");
 const { HttpError } = require("../../../utils/utils");
-const productsDaoMongo = require("../products/productsDao.mongo");
-
+//const { getDAOS } = require("../daos.factory");
+//const envConfig = require("../../../config/env.config");
+//const productsDaoMongo = getDAOS(envConfig.DATASOURCE).productsDao;
+const productsDaoMongo = require("../products/productsDao.mongo")
 const collection = "carts";
 
 class DaoCartsMongo extends MongoRepository {

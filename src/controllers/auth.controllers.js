@@ -1,6 +1,6 @@
 const UsersApi = require("../api/users.api");
 const { HTTP_STATUS } = require("../constants/api.constants");
-const { successResponse, errorResponse, getAge } = require("../utils/utils");
+const { successResponse, getAge } = require("../utils/utils");
 const bcrypt = require("bcrypt");
 const CartsApi = require("../api/carts.api");
 const jwt = require("jsonwebtoken");
