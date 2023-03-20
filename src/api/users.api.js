@@ -1,8 +1,10 @@
 const bcrypt = require("bcrypt");
 const envConfig = require("../config/env.config");
+const { HTTP_STATUS } = require("../constants/api.constants");
 const { getDAOS } = require("../models/dao/daos.factory");
 const UserDTO = require("../models/dtos/users.dto");
-const { getAge } = require("../utils/utils");
+const { getAge, HttpError } = require("../utils/utils");
+
 
 class UsersApi {
   constructor() {
@@ -22,12 +24,16 @@ class UsersApi {
   }
 
   async createUser(userPayload) {
+    let doesUsernameExist = await this.UsersDao.getByEmail(userPayload.email)
+    if (doesUsernameExist) {
+      const message = `Resources with username: ${userPayload.email} does already exist in our records`;
+      throw new HttpError(HTTP_STATUS.BAD_REQUEST, message);
+    }
     try {
       userPayload.password = await bcrypt.hash(userPayload.password, 10);
       if (!userPayload.profilePicture) {
-        userPayload.profilePicture = `Avatar${
-          Math.floor(Math.random() * 12) + 1
-        }.png`;
+        userPayload.profilePicture = `Avatar${Math.floor(Math.random() * 12) + 1
+          }.png`;
       }
       if (userPayload.birthDate) {
         userPayload.age = getAge(userPayload.birthDate);

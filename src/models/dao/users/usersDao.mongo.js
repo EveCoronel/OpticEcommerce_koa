@@ -12,10 +12,6 @@ class Users extends MongoRepository {
 
   async getByEmail(username) {
     const document = await this.model.findOne({ email: username }, { __v: 0 });
-    if (!document) {
-      const message = `Resource with email ${username} does not exist in our records`;
-      throw new HttpError(HTTP_STATUS.NOT_FOUND, message);
-    }
     return document;
   }
 }

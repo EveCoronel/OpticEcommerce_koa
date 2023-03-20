@@ -5,6 +5,7 @@ const { koaBody } = require("koa-body");
 const apiRoutes = require("./routers/api.routes");
 const MongoRepository = require("./models/Repository/mongo.repository");
 //const socketDefinition = require("./socket");
+const cors = require('@koa/cors');
 
 const errorMiddleware = require("./middlewares/error.middleware");
 
@@ -46,9 +47,12 @@ app.ws.use((ctx, next) => {
   return next(ctx);
 });
 
+
 app.use(koaBody());
+app.use(cors());
 app.use(errorMiddleware);
 app.use(apiRoutes.routes());
+
 
 app.listen(envConfig.PORT, async () => {
   logger.info(`Server is up and running on PORT ${envConfig.PORT}`);
