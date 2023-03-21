@@ -2,11 +2,15 @@ const envConfig = require("../config/env.config");
 const { HTTP_STATUS } = require("../constants/api.constants");
 const { getDAOS } = require("../models/dao/daos.factory");
 const CartDTO = require("../models/dtos/carts.dto");
+const OrderDto = require("../models/dtos/order.dto");
 const { HttpError } = require("../utils/utils");
+const sendMail = require("../utils/sendMail");
 
 class CartsApi {
   constructor() {
     this.CartsDao = getDAOS(envConfig.DATASOURCE).cartsDao;
+    this.OrderDao = getDAOS(envConfig.DATASOURCE).ordersDao;
+    this.UserDao = getDAOS(envConfig.DATASOURCE).usersDao
   }
 
   async getAll() {
@@ -60,6 +64,24 @@ class CartsApi {
       );
     }
     return this.CartsDao.deleteProductById(_id, idProd);
+  }
+
+  async createOrder(username) {
+    try {
+      let user = await this.UserDao.getByEmail(username)
+      let products = await this.CartsDao.getProductsInCart(user.cart);
+      let orders = await this.OrderDao.getAll();
+      let orderNumber = orders.length + 1;
+      let orderPayload = new OrderDto(products, orderNumber, "generated", username)
+      let response = await this.OrderDao.save(orderPayload)
+      sendMail(envConfig.ADMIN_EMAIL, "New order", "New order was created")
+      return response;
+    } catch (error) {
+      throw new HttpError(
+        HTTP_STATUS.INTERNAL_ERROR,
+        `Order could not be created successfully`
+      );
+    }
   }
 }
 

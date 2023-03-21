@@ -27,5 +27,7 @@ module.exports = {
   TWILIO_NUMBER: process.env.TWILIO_NUMBER,
   PORT: process.env.PORT,
   DB_NAME: process.env.DB_NAME || "test",
-  SECRET_KEY: secretKey
+  SECRET_KEY: secretKey,
+  SENDGRID_APIKEY: process.env.SENDGRID_APIKEY,
+  SENDGRID_EMAIL: process.env.SENDGRID_EMAIL
 };

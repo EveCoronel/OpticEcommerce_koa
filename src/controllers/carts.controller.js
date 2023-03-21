@@ -135,6 +135,24 @@ class CartsController {
       );
     }
   }
+
+  async checkout(ctx) {
+    try {
+      const username = ctx.state.user?.username;
+      if (!username) {
+        throw new HttpError(HTTP_STATUS.BAD_REQUEST, "Identification is needed, please login and try again!")
+      }
+      const newOrder = await api.createOrder(username)
+      ctx.status = HTTP_STATUS.OK;
+      ctx.body = successResponse(newOrder, HTTP_STATUS.OK);
+    } catch (error) {
+      throw new HttpError(
+        HTTP_STATUS.INTERNAL_ERROR,
+        "Unexpected error while checking out",
+        error.message
+      );
+    }
+  }
 }
 
 module.exports = new CartsController();
