@@ -4,7 +4,7 @@ const logger = require("./logs/logger");
 const { koaBody } = require("koa-body");
 const apiRoutes = require("./routers/api.routes");
 const MongoRepository = require("./models/Repository/mongo.repository");
-//const cors = require('@koa/cors');
+const cors = require('@koa/cors');
 const Pug = require('koa-pug');
 const errorMiddleware = require("./middlewares/error.middleware");
 const ws = require("koa-websocket");
@@ -53,8 +53,8 @@ app.ws.use((ctx, next) => {
  */
 
 app.use(koaBody());
-//app.use(cors());
-app.use(errorMiddleware);
+app.use(cors());
+//app.use(errorMiddleware);
 app.use(apiRoutes.routes());
 
 
