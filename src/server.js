@@ -4,12 +4,12 @@ const logger = require("./logs/logger");
 const { koaBody } = require("koa-body");
 const apiRoutes = require("./routers/api.routes");
 const MongoRepository = require("./models/Repository/mongo.repository");
-const cors = require('@koa/cors');
+//const cors = require('@koa/cors');
 const Pug = require('koa-pug');
 const errorMiddleware = require("./middlewares/error.middleware");
 const ws = require("koa-websocket");
 const app = ws(new Koa());
-const clients = new Set();
+// const clients = new Set();
 
 const pug = new Pug({
   viewPath: './src/public/views',
@@ -17,7 +17,7 @@ const pug = new Pug({
   app: app
 })
 
-const users = [];
+/* const users = [];
 const messages = [];
 
 app.ws.use((ctx, next) => {
@@ -50,10 +50,10 @@ app.ws.use((ctx, next) => {
 
   return next(ctx);
 });
-
+ */
 
 app.use(koaBody());
-app.use(cors());
+//app.use(cors());
 app.use(errorMiddleware);
 app.use(apiRoutes.routes());
 
