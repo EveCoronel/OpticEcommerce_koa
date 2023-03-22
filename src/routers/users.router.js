@@ -4,6 +4,7 @@ const authMiddleware = require("../middlewares/auth.middleware");
 
 
 
+
 const router = new Router({
     prefix: "/users",
 });

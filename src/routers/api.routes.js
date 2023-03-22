@@ -8,9 +8,9 @@ const userRouter = require("./users.router")
 const router = new Router({ prefix: "/api" });
 
 router.use(productsRouter.routes());
-router.use(authRouter.routes());
 router.use(cartRouter.routes())
 router.use(configRouter.routes())
+router.use(authRouter.routes());
 router.use(userRouter.routes())
 
 module.exports = router;

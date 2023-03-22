@@ -6,8 +6,8 @@ const router = new Router({
     prefix: "/admin/config",
 });
 
-router.get("/",async (ctx) => {
-    await ctx.render('config', {config: envConfig}, true)
+router.get("/", authMiddleware(), async (ctx) => {
+    await ctx.render('config', { config: envConfig }, true)
 });
 
 module.exports = router;
