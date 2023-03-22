@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "npm": "9.5.0"
+  },
   "dependencies": {
     "@koa/cors": "^4.0.0",
     "@sendgrid/mail": "^7.7.0",
