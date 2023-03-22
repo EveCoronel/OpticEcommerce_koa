@@ -15,7 +15,7 @@ class AuthController {
     let userFound = await api.getUserByUsername(username);
     let isValidPassword = await bcrypt.compare(password, userFound.password);
     if (isValidPassword) {
-      const token = jwt.sign({ username }, envConfig.SECRET_KEY, { expiresIn: "1h" });
+      const token = jwt.sign({ username }, envConfig.SECRET_KEY, { expiresIn: envConfig.SESSION_TIME });
       const response = successResponse({ token: token }, HTTP_STATUS.OK);
       ctx.body = response;
     } else {

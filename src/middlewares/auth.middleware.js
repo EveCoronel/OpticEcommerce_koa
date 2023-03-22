@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const koaJwt = require("koa-jwt");
 const envConfig = require("../config/env.config");
 const { HTTP_STATUS } = require("../constants/api.constants");
 const { HttpError } = require("../utils/utils");
@@ -33,23 +32,5 @@ function authMiddleware() {
     }
   }
 }
-
-/* function setUserContext() {
-  return async (ctx, next) => {
-    const token = ctx.headers.authorization;
-    if (token && token.startsWith("Bearer ")) {
-      try {
-        const decoded = jwt.verify(
-          token.substring("Bearer ".length),
-          secretKey
-        );
-        ctx.state.user = decoded;
-      } catch (err) {
-        console.error("Failed to verify token:", err.message);
-      }
-    }
-    await next();
-  };
-} */
 
 module.exports = authMiddleware;

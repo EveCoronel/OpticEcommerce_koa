@@ -24,15 +24,24 @@ class DaoCartsMongo extends MongoRepository {
       const message = `Resource with id ${_id} does not exist in our records`;
       throw new HttpError(HTTP_STATUS.NOT_FOUND, message);
     }
-    let productsIds = document.products;
-    let products = [];
-    for (const productId of productsIds) {
-      let foundProduct = await productsDaoMongo.getById(productId.toString());
+
+    const productsIds = document.products;
+
+    let productsIdsAux = Object.values(productsIds.reduce((acc, curr) => {
+      acc[curr] = acc[curr] || { _id: curr, cant: 0 };
+      acc[curr].cant++;
+      return acc;
+    }, {}));
+
+    let productsInCart = [];
+    for (const product of productsIdsAux) {
+      let foundProduct = await productsDaoMongo.getById(product._id);
       if (foundProduct) {
-        products.push(foundProduct);
+        foundProduct.cant = product.cant
+        productsInCart.push(foundProduct);
       }
     }
-    return products;
+    return productsInCart
   }
 
   async addProduct(_id, idProd) {

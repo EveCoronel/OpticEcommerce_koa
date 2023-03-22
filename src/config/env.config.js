@@ -29,5 +29,6 @@ module.exports = {
   DB_NAME: process.env.DB_NAME || "test",
   SECRET_KEY: secretKey,
   SENDGRID_APIKEY: process.env.SENDGRID_APIKEY,
-  SENDGRID_EMAIL: process.env.SENDGRID_EMAIL
+  SENDGRID_EMAIL: process.env.SENDGRID_EMAIL,
+  SESSION_TIME: process.env.SESSION_TIME
 };
