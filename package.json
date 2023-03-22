@@ -1,6 +1,6 @@
 {
   "engines": {
-    "npm": "9.5.0"
+    "npm": "^9.0.0"
   },
   "dependencies": {
     "@koa/cors": "^4.0.0",
