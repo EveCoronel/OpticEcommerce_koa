@@ -54,7 +54,7 @@ app.ws.use((ctx, next) => {
 
 app.use(koaBody());
 app.use(cors());
-//app.use(errorMiddleware);
+app.use(errorMiddleware);
 app.use(apiRoutes.routes());
 
 
