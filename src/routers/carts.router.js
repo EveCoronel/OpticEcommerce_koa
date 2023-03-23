@@ -17,6 +17,6 @@ router.delete("/:_id", authMiddleware(), cartsController.emptyCart);
 router.delete("/:_id/products/:idProd", authMiddleware(), cartsController.deleteProductById);
 
 //Checkout
-router.post("/checkout", authMiddleware(), cartsController.checkout)
+router.post("/checkout/:username", authMiddleware(), cartsController.checkout)
 
 module.exports = router;

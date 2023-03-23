@@ -4,7 +4,7 @@ const { getDAOS } = require("../models/dao/daos.factory");
 const CartDTO = require("../models/dtos/carts.dto");
 const OrderDto = require("../models/dtos/order.dto");
 const { HttpError } = require("../utils/utils");
-const sendMail = require("../utils/sendMail");
+const { sendMail, sendOrderMail } = require("../utils/sendMail");
 
 class CartsApi {
   constructor() {
@@ -71,10 +71,11 @@ class CartsApi {
       let user = await this.UserDao.getByEmail(username)
       let products = await this.CartsDao.getProductsInCart(user.cart);
       let orders = await this.OrderDao.getAll();
-      let orderNumber = orders.length + 1;
-      let orderPayload = new OrderDto(products, orderNumber, "generated", username)
+      let orderPayload = new OrderDto(products, orders.length + 1, "generated", username)
       let response = await this.OrderDao.save(orderPayload)
-      sendMail(envConfig.ADMIN_EMAIL, "New order", "New order was created")
+      sendMail(envConfig.ADMIN_EMAIL, "New order", `New order was created \n ${JSON.stringify(orderPayload)}`)
+      sendOrderMail(username, orderPayload);
+      await this.CartsDao.emptyCart()
       return response;
     } catch (error) {
       throw new HttpError(

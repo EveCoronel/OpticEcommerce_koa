@@ -138,7 +138,7 @@ class CartsController {
 
   async checkout(ctx) {
     try {
-      const username = ctx.state.user?.username;
+      const { username } = ctx.request.params;
       if (!username) {
         throw new HttpError(HTTP_STATUS.BAD_REQUEST, "Identification is needed, please login and try again!")
       }
