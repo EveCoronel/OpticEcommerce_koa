@@ -1,11 +1,12 @@
-const socketDefinition = (app) => {
-  console.log("Here")
-  const clients = new Set();
 
-  const users = [];
-  const messages = [];
+const socketDefinition = () => {
+  return async (ctx, next) => {
+    
+    const clients = new Set();
 
-  app.ws.use((ctx, next) => {
+    const users = [];
+    const messages = [];
+
     clients.add(ctx.websocket);
     logger.info("User connected sucessfully");
 
@@ -19,9 +20,7 @@ const socketDefinition = (app) => {
     });
 
     ctx.websocket.on("message", (message) => {
-      logger.info(`New message was recive ==> ${message.toString("utf-8")}`);
-
-      io.emit("messages", messages);
+      console.log(message)
       clients.forEach((client) => {
         if (client.readyState === 1) {
           client.send(message);
@@ -35,7 +34,8 @@ const socketDefinition = (app) => {
     });
 
     return next(ctx);
-  });
+
+  }
 };
 
 module.exports = socketDefinition;
