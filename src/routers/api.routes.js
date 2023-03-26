@@ -7,6 +7,46 @@ const userRouter = require("./users.router")
 
 const router = new Router({ prefix: "/api" });
 
+router.get("/chat", async (ctx, next) => {
+    ctx.body = `
+    <html>
+      <head>
+        <title>Socket.IO with Koa</title>
+      </head>
+      <body>
+        <h1>Socket.IO with Koa</h1>
+        <div id="messages"></div>
+        <form id="form">
+          <input type="text" id="message" autocomplete="off">
+          <button type="submit">Send</button>
+        </form>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+          const socket = io();
+
+          const messagesDiv = document.getElementById('messages');
+          const form = document.getElementById('form');
+          const messageInput = document.getElementById('message');
+
+          form.onsubmit = event => {
+            event.preventDefault();
+            const message = messageInput.value;
+            socket.emit('chat message', message);
+            messageInput.value = '';
+          };
+
+          socket.on('chat message', message => {
+            const messageDiv = document.createElement('div');
+            messageDiv.innerText = message;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+          });
+        </script>
+      </body>
+    </html>
+  `;
+})
+
 router.use(productsRouter.routes());
 router.use(cartRouter.routes())
 router.use(configRouter.routes())

@@ -7,10 +7,13 @@ const MongoRepository = require("./models/Repository/mongo.repository");
 const cors = require('@koa/cors');
 const Pug = require('koa-pug');
 const errorMiddleware = require("./middlewares/error.middleware");
-const ws = require("koa-websocket");
-const socketDefinition = require("./socket");
-const app = ws(new Koa());
+const http = require('http');
+const socketLogic = require('./socket');
 
+const app = new Koa();
+const server = http.createServer(app.callback());
+
+socketLogic(server);
 
 new Pug({
   viewPath: './src/public/views',
@@ -18,15 +21,13 @@ new Pug({
   app: app
 })
 
-app.ws.use(socketDefinition());
-
 app.use(koaBody());
 app.use(cors());
 app.use(errorMiddleware);
 app.use(apiRoutes.routes());
 
 
-app.listen(envConfig.PORT, async () => {
+server.listen(envConfig.PORT, async () => {
   logger.info(`Server is up and running on PORT ${envConfig.PORT}`);
   await MongoRepository.connect().then(() => {
     logger.info("Connected to DB!");
