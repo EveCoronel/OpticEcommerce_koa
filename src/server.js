@@ -7,9 +7,8 @@ const MongoRepository = require("./models/Repository/mongo.repository");
 const cors = require('@koa/cors');
 const Pug = require('koa-pug');
 const errorMiddleware = require("./middlewares/error.middleware");
-const http = require('http');
 const socketLogic = require('./socket');
-
+const http = require('http');
 const app = new Koa();
 const server = http.createServer(app.callback());
 

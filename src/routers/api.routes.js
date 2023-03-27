@@ -3,11 +3,12 @@ const productsRouter = require("./products.router");
 const authRouter = require("./auth.router");
 const cartRouter = require("./carts.router");
 const configRouter = require("./config.router");
-const userRouter = require("./users.router")
+const userRouter = require("./users.router");
+const authMiddleware = require("../middlewares/auth.middleware");
 
 const router = new Router({ prefix: "/api" });
 
-router.get("/chat", async (ctx, next) => {
+router.get("/chat", authMiddleware(), async (ctx, next) => {
     ctx.body = `
     <html>
       <head>
