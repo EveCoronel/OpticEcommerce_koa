@@ -8,11 +8,11 @@ const socketLogic = async (server) => {
 
   const io = socketio(server, {
     cors: {
-      origin: ['http://localhost:3000', 'https://see-sharp-store-git-main-evecoronel.vercel.app'],
+      origin: ['http://localhost:3000', 'https://see-sharp-store-git-main-evecoronel.vercel.app', 'https://see-sharp-store.vercel.app'],
       methods: ['GET', 'POST'],
       allowedHeaders: ['Authorization'],
       credentials: true,
-      cors_allowed_origins: ['http://localhost:3000', 'https://see-sharp-store-git-main-evecoronel.vercel.app']
+      cors_allowed_origins: ['http://localhost:3000', 'https://see-sharp-store-git-main-evecoronel.vercel.app', 'https://see-sharp-store.vercel.app']
     }
   });
 
